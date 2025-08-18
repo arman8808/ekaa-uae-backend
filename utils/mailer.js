@@ -932,7 +932,7 @@ const sendAwakenLimitlessHumanAdminNotification = async (registration) => {
   try {
     await transporter.sendMail({
       from: `"EKAA USA" <${process.env.MAIL_USER}>`,
-      to: process.env.ADMIN_EMAIL || process.env.MAIL_USER,
+      to: process.env.ADMIN_Email || process.env.MAIL_USER,
       cc: ["connect@ekaausa.com"],
       subject: `New AWAKEN THE LIMITLESS HUMAN Registration: ${registration.levelName}`,
       html: awakenLimitlessHumanEmailTemplates.adminNotification(registration),

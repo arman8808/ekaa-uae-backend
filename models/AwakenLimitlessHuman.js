@@ -16,7 +16,7 @@ const awakenLimitlessHumanSchema = new mongoose.Schema(
     email: { type: String, required: true, trim: true, lowercase: true },
     dob: { type: Date, required: true },
     occupation: { type: String, required: true, trim: true },
-    courseDetailDate: { type: Date },
+    courseDetailDate: { type: String },
     courseDetailTime: { type: String },
     courseDetailVenue: { type: String },
     hearAbout: { type: String, trim: true },
