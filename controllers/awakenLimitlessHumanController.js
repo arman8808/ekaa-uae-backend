@@ -35,11 +35,31 @@ exports.createAwakenLimitlessHumanRegistration = async (req, res) => {
 
 exports.getAwakenLimitlessHumanRegistrations = async (req, res) => {
   try {
-    const registrations = await AwakenLimitlessHuman.find().sort({createdAt:-1});
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalRegistrations = await AwakenLimitlessHuman.countDocuments();
+    const totalPages = Math.ceil(totalRegistrations / limit);
+
+    const registrations = await AwakenLimitlessHuman.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
     res.status(200).json({
       success: true,
       message: "AWAKEN THE LIMITLESS HUMAN Registrations fetched successfully.",
       data: registrations,
+      pagination: {
+        currentPage: page,
+        totalPages: totalPages,
+        totalRegistrations: totalRegistrations,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
+        nextPage: page < totalPages ? page + 1 : null,
+        prevPage: page > 1 ? page - 1 : null
+      }
     });
   } catch (error) {
     res.status(500).json({
