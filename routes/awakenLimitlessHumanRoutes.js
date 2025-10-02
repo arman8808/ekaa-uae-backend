@@ -34,6 +34,9 @@ router.post('/',
 // Get all AWAKEN THE LIMITLESS HUMAN registrations
 router.get('/', awakenLimitlessHumanController.getAwakenLimitlessHumanRegistrations);
 
+// Download registrations within date range (CSV)
+router.get('/download', awakenLimitlessHumanController.downloadAwakenLimitlessHumanByDateRange);
+
 // Get single AWAKEN THE LIMITLESS HUMAN registration by ID
 router.get('/:id', awakenLimitlessHumanController.getAwakenLimitlessHumanRegistrationById);
 
