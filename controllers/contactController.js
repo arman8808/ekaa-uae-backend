@@ -30,12 +30,13 @@ const validateContactData = (data) => {
     errors.push("Please enter a valid email address");
   }
 
-  // Validate privacy policy acceptance
-  if (
-    data.acceptPrivacyPolicy !== "true" &&
-    data.acceptPrivacyPolicy !== true
+  // Validate privacy policy is provided and is boolean-like
+  if (data.acceptPrivacyPolicy === undefined || data.acceptPrivacyPolicy === null) {
+    errors.push("Privacy policy selection is required");
+  } else if (
+    ![true, false, "true", "false"].includes(data.acceptPrivacyPolicy)
   ) {
-    errors.push("You must accept the privacy policy to proceed");
+    errors.push("Privacy policy must be true or false");
   }
 
   // Validate phone number
@@ -46,13 +47,7 @@ const validateContactData = (data) => {
     errors.push("Phone number must be between 10-15 digits");
   }
 
-  // Validate message length
-  if (
-    data.message &&
-    (data.message.length < 10 || data.message.length > 1000)
-  ) {
-    errors.push("Message must be between 10-1000 characters");
-  }
+
 
   // Validate name lengths
   if (
@@ -107,7 +102,8 @@ const createContact = async (req, res) => {
       country: country.trim(),
       zipCode: zipCode.trim(),
       message: message.trim(),
-      acceptPrivacyPolicy: true,
+      acceptPrivacyPolicy:
+        data.acceptPrivacyPolicy === true || data.acceptPrivacyPolicy === "true",
     };
 
     // Save to database

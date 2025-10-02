@@ -8,6 +8,7 @@ const hypnotherapy = require('./routes/hypnotherapyRoutes');
 const decodeRoutes = require('./routes/decodeRoutes');
 const eventsRoutes = require('./routes/eventsRoutes');
 const awakenLimitlessHumanRoutes = require('./routes/awakenLimitlessHumanRoutes');
+const managedEventsRoutes = require('./routes/managedEventsRoutes');
 
 const express = require("express");
 const app = express();
@@ -32,6 +33,7 @@ app.use('/api/hypnotherapy', hypnotherapy);
 app.use('/api/decode', decodeRoutes);
 app.use('/api/events', eventsRoutes);
 app.use('/api/awakenLimitlessHuman', awakenLimitlessHumanRoutes);
+app.use('/api/managed-events', managedEventsRoutes);
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Server is running" });
 });
