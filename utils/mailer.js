@@ -833,6 +833,82 @@ const sendICHUserConfirmation = async ({ email, name, registration }) => {
   }
 };
 
+// Generic program email templates and helpers for FamilyConstellation/Decode/Tasso
+const genericProgramEmailTemplates = {
+  adminNotification: (programType, registration) => `
+    <div style="${emailStyles.container}">
+      <div style="${emailStyles.header}">
+        <h2 style="margin: 0;">New ${programType} Registration</h2>
+      </div>
+      <div style="${emailStyles.content}">
+        <div style="${emailStyles.field}">
+          <p><strong>Name:</strong> ${registration.firstName} ${registration.lastName}</p>
+          <p><strong>Email:</strong> ${registration.email}</p>
+          <p><strong>Mobile:</strong> ${registration.mobileNo}</p>
+          <p><strong>City:</strong> ${registration.city}</p>
+          ${registration.levelName ? `<p><strong>Program:</strong> ${registration.levelName}</p>` : ''}
+        </div>
+      </div>
+      <div style="${emailStyles.footer}">
+        <p>EKAA Registration System &copy; ${new Date().getFullYear()}</p>
+      </div>
+    </div>
+  `,
+  userConfirmation: (programType, registration) => `
+    <div style="${emailStyles.container}">
+      <div style="${emailStyles.header}">
+        <h2 style="margin: 0;">${programType} Registration Confirmed</h2>
+      </div>
+      <div style="${emailStyles.content}">
+        <p>Dear ${registration.firstName} ${registration.lastName},</p>
+        <p>Thank you for registering${registration.levelName ? ` for <strong>${registration.levelName}</strong>` : ''}. Our team will contact you shortly.</p>
+        <div style="${emailStyles.highlightBox}">
+          <h3 style="${emailStyles.subHeading}">Your Details</h3>
+          <div style="${emailStyles.list}">
+            <div style="${emailStyles.listItem}"><strong>Email:</strong> ${registration.email}</div>
+            <div style="${emailStyles.listItem}"><strong>Mobile:</strong> ${registration.mobileNo}</div>
+            <div style="${emailStyles.listItem}"><strong>City:</strong> ${registration.city}</div>
+            ${registration.timeslot ? `<div style="${emailStyles.listItem}"><strong>Time Slot:</strong> ${registration.timeslot}</div>` : ''}
+          </div>
+        </div>
+        <p>For queries, contact <a href="mailto:connect@ekaausa.com" style="color:#6e2d79;text-decoration:none;">connect@ekaausa.com</a>.</p>
+      </div>
+      <div style="${emailStyles.footer}">EKAA USA</div>
+    </div>
+  `
+};
+
+const sendProgramAdminNotification = async (programType, registration) => {
+  try {
+    await transporter.sendMail({
+      from: `"EKAA USA" <${process.env.MAIL_USER}>`,
+      to: process.env.ADMIN_EMAIL || process.env.MAIL_USER,
+      cc: ["connect@ekaausa.com"],
+      subject: `New ${programType} Registration: ${registration.firstName} ${registration.lastName}`,
+      html: genericProgramEmailTemplates.adminNotification(programType, registration),
+      replyTo: "connect@ekaausa.com",
+    });
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+const sendProgramUserConfirmation = async (programType, registration) => {
+  try {
+    await transporter.sendMail({
+      from: `"EKAA USA" <${process.env.MAIL_USER}>`,
+      to: registration.email,
+      subject: `${programType} Registration Confirmation`,
+      html: genericProgramEmailTemplates.userConfirmation(programType, registration),
+      replyTo: "connect@ekaausa.com",
+    });
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
 // AWAKEN THE LIMITLESS HUMAN email templates
 const awakenLimitlessHumanEmailTemplates = {
   adminNotification: (registration) => `
@@ -1179,6 +1255,8 @@ module.exports = {
   sendICHUserConfirmation,
   sendAwakenLimitlessHumanAdminNotification,
   sendAwakenLimitlessHumanUserConfirmation,
+  sendProgramAdminNotification,
+  sendProgramUserConfirmation,
 };
 const emailStyles = {
   container:

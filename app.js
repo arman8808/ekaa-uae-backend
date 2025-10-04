@@ -9,6 +9,9 @@ const decodeRoutes = require('./routes/decodeRoutes');
 const eventsRoutes = require('./routes/eventsRoutes');
 const awakenLimitlessHumanRoutes = require('./routes/awakenLimitlessHumanRoutes');
 const managedEventsRoutes = require('./routes/managedEventsRoutes');
+const familyConstellationRoutes = require('./routes/familyConstellation.routes');
+const decodeRegistrationRoutes = require('./routes/decodeRegistration.routes');
+const tassoRegistrationRoutes = require('./routes/tassoRegistration.routes');
 
 const express = require("express");
 const app = express();
@@ -34,6 +37,9 @@ app.use('/api/decode', decodeRoutes);
 app.use('/api/events', eventsRoutes);
 app.use('/api/awakenLimitlessHuman', awakenLimitlessHumanRoutes);
 app.use('/api/managed-events', managedEventsRoutes);
+app.use('/api/family-constellation', familyConstellationRoutes);
+app.use('/api/decode-registration', decodeRegistrationRoutes);
+app.use('/api/tasso-registration', tassoRegistrationRoutes);
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Server is running" });
 });

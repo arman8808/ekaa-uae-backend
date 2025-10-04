@@ -103,7 +103,7 @@ const createContact = async (req, res) => {
       zipCode: zipCode.trim(),
       message: message.trim(),
       acceptPrivacyPolicy:
-        data.acceptPrivacyPolicy === true || data.acceptPrivacyPolicy === "true",
+        acceptPrivacyPolicy === true || acceptPrivacyPolicy === "true",
     };
 
     // Save to database
