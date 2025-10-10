@@ -12,7 +12,7 @@ const managedEventsRoutes = require('./routes/managedEventsRoutes');
 const familyConstellationRoutes = require('./routes/familyConstellation.routes');
 const decodeRegistrationRoutes = require('./routes/decodeRegistration.routes');
 const tassoRegistrationRoutes = require('./routes/tassoRegistration.routes');
-
+const registrationFormRoutes = require('./routes/registrationFormRoutes');
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -40,6 +40,7 @@ app.use('/api/managed-events', managedEventsRoutes);
 app.use('/api/family-constellation', familyConstellationRoutes);
 app.use('/api/decode-registration', decodeRegistrationRoutes);
 app.use('/api/tasso-registration', tassoRegistrationRoutes);
+app.use('/api/registration-form', registrationFormRoutes);
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Server is running" });
 });
