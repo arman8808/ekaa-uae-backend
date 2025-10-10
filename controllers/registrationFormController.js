@@ -88,3 +88,56 @@ exports.createRegistrationForm = async (req, res) => {
     },
   });
 };
+
+exports.listRegistrations = async (req, res) => {
+    const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit, 10) || 20)); // cap at 100
+    const skip = (page - 1) * limit;
+    const search = (req.query.search || '').trim();
+    const sortParam = req.query.sort || '-createdAt';
+  
+    // Build filter
+    const filter = {};
+    if (search) {
+      const re = new RegExp(search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); // escape and case-insensitive
+      filter.$or = [
+        { name: re },
+        { email: re },
+        { phone: re },
+      ];
+    }
+  
+    // Build sort object
+    let sort = {};
+    if (typeof sortParam === 'string') {
+      const fields = sortParam.split(',');
+      fields.forEach((f) => {
+        f = f.trim();
+        if (!f) return;
+        if (f.startsWith('-')) sort[f.substring(1)] = -1;
+        else sort[f] = 1;
+      });
+    } else {
+      sort = { createdAt: -1 };
+    }
+  
+    // Fetch items and total count
+    const [items, total] = await Promise.all([
+      RegistrationForm.find(filter)
+        .sort(sort)
+        .skip(skip)
+        .limit(limit)
+        .lean()
+        .exec(),
+      RegistrationForm.countDocuments(filter).exec(),
+    ]);
+  
+    return res.json({
+      status: 'success',
+      total,
+      page,
+      pages: Math.ceil(total / limit),
+      perPage: limit,
+      data: items,
+    });
+  };
