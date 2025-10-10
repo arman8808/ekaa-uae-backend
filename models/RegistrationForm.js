@@ -18,7 +18,7 @@ const RegistrationFormSchema = new mongoose.Schema(
 );
 
 // Optional: Prevent duplicate exact registrations by email + phone
-RegistrationSchema.index({ email: 1, phone: 1 }, { unique: false });
+RegistrationFormSchema.index({ email: 1, phone: 1 }, { unique: false });
 
 // Export model
 module.exports = mongoose.model('RegistrationForm', RegistrationFormSchema);
