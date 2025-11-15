@@ -85,7 +85,7 @@ const LearningSectionSchema = new mongoose.Schema({
   }
 });
 
-const DecodeProgramSchema = new mongoose.Schema({
+const AwakenLimitlessHumanPageSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, 'Title is required'],
@@ -143,4 +143,4 @@ const DecodeProgramSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model('DecodeProgram', DecodeProgramSchema);
+module.exports = mongoose.model('AwakenLimitlessHumanPage', AwakenLimitlessHumanPageSchema);

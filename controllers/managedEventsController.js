@@ -44,6 +44,11 @@ const EVENT_OPTIONS = [
     label: "Family Constellation",
     hasLevels: false,
   },
+  {
+    value: "Specialized Workshop / Experiential Workshop",
+    label: "Specialized Workshop / Experiential Workshop",
+    hasLevels: false,
+  },
 ];
 
 const isValidEventPayload = ({ event, level }) => {
@@ -84,12 +89,10 @@ exports.createManagedEvent = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid dates" });
     }
     if (end < start) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "endDate must be on or after startDate",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "endDate must be on or after startDate",
+      });
     }
 
     const doc = await ManagedEvent.create({
@@ -106,13 +109,11 @@ exports.createManagedEvent = async (req, res) => {
     });
     return res.status(201).json({ success: true, data: doc });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to create event",
-        error: error.message,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to create event",
+      error: error.message,
+    });
   }
 };
 
@@ -159,13 +160,11 @@ exports.getManagedEvents = async (req, res) => {
       },
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to fetch events",
-        error: error.message,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch events",
+      error: error.message,
+    });
   }
 };
 
@@ -182,13 +181,11 @@ exports.getManagedEventById = async (req, res) => {
     }
     return res.status(200).json({ success: true, data: doc });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to fetch event",
-        error: error.message,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch event",
+      error: error.message,
+    });
   }
 };
 
@@ -235,12 +232,10 @@ exports.updateManagedEvent = async (req, res) => {
       updates.endDate &&
       updates.endDate < updates.startDate
     ) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "endDate must be on or after startDate",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "endDate must be on or after startDate",
+      });
     }
 
     const doc = await ManagedEvent.findOneAndUpdate(
@@ -257,13 +252,11 @@ exports.updateManagedEvent = async (req, res) => {
 
     return res.status(200).json({ success: true, data: doc });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to update event",
-        error: error.message,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update event",
+      error: error.message,
+    });
   }
 };
 
@@ -281,13 +274,11 @@ exports.softDeleteManagedEvent = async (req, res) => {
     }
     return res.status(200).json({ success: true, message: "Event deleted" });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to delete event",
-        error: error.message,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete event",
+      error: error.message,
+    });
   }
 };
 
@@ -305,13 +296,11 @@ exports.getManagedEventsForUserPanel = async (req, res) => {
 
     return res.status(200).json({ success: true, data });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to fetch events",
-        error: error.message,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch events",
+      error: error.message,
+    });
   }
 };
 exports.getFamiluConitalationEventsForUserPanel = async (req, res) => {
@@ -328,12 +317,10 @@ exports.getFamiluConitalationEventsForUserPanel = async (req, res) => {
 
     return res.status(200).json({ success: true, data });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to fetch events",
-        error: error.message,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch events",
+      error: error.message,
+    });
   }
 };
